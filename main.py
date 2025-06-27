@@ -1,6 +1,21 @@
 from fastapi import FastAPI
 import uvicorn
+
+from pandantic import CreatUser
+
 app = FastAPI()
+
+
+'''
+get - получить
+post - добавить
+'''
+
+
+
+
+
+
 
 
 @app.get('/')
@@ -22,6 +37,13 @@ def items():
 def hello(name:str):
     return {
         'message':f"Привет {name}"
+    }
+
+@app.post('/user/')
+def create(user: CreatUser):
+    return {
+        'message':'True',
+        'email': user.email
     }
 
 
