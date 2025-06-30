@@ -1,5 +1,6 @@
 from fastapi import APIRouter
 
+from users import crud
 from users.schemas import CreatUser
 
 router_user = APIRouter(prefix='/users',tags=['users'])
@@ -15,7 +16,4 @@ def hello(name:str):
 
 @router_user.post('/')
 def create(user: CreatUser):
-    return {
-        'message':'True',
-        'email': user.email
-    }
+    return crud.creat_user(usert_in=user)
