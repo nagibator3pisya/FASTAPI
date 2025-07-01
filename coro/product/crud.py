@@ -9,7 +9,7 @@ from sqlalchemy.engine import Result
 from  sqlalchemy.ext.asyncio import AsyncSession
 
 from coro.models import Product
-from coro.product.schemas import ProductCreate
+from coro.product.schemas import ProductCreate, ProductUpdate, ProductUpdatePartial
 
 
 async  def get_products(session:AsyncSession)-> list[Product]:
@@ -44,6 +44,22 @@ async def create_product(session:AsyncSession,product_in:ProductCreate) -> Produ
     return product
 
 
+async def update_product(session:AsyncSession, product: Product,product_update: ProductUpdate) ->Product:
+    for name,value in product_update.model_dump().items():
+        setattr(product,name,value)
+    await session.commit()
+    return product
+
+async def update_product_partial(session:AsyncSession, product: Product,product_update_partial: ProductUpdatePartial):
+    for name, value in product_update_partial.model_dump(exclude_unset=True).items():
+        setattr(product, name, value)
+    await session.commit()
+    return product
+
+
+async def delete_product(session:AsyncSession, product: Product):
+    await session.delete(product)
+    await session.commit()
 
 
 

@@ -35,3 +35,8 @@ async def get_product(product_id:int,session: AsyncSession = Depends(bd_helps_ex
     product = await crud.get_product(session=session,product_id=product_id)
     # если он пришел то возвращаем его
     return product
+
+
+
+@product_router.put('/{product_id}/')
+async def update_product()
