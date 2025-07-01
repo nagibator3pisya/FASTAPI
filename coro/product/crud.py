@@ -19,8 +19,8 @@ async  def get_products(session:AsyncSession)-> list[Product]:
     :return:
     """
     srmt = select(Product).order_by(Product.id)
-    result:Result = await session.execute(srmt)
-    product = result.scalar().all()
+    result: Result = await session.execute(srmt)
+    product = result.scalars().all()
     return list(product)
 
 

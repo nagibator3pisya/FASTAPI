@@ -22,7 +22,7 @@ class DatabaseHelper:
             url=url,
             echo=echo
         )
-        # асинхронная сессия
+        # асинхронная сессия,фабрика
 
         self.session_factory = async_sessionmaker(
             bind= self.engine,
@@ -45,10 +45,11 @@ class DatabaseHelper:
     #         await sess.remove()
 
     async def session_dependency(self) -> AsyncSession:
-        async with self.get_scoped_session() as sess:
+        async with self.session_factory() as sess:
             yield sess
+            await sess.close()
 
-bd_helps = DatabaseHelper(url=setting.db_url, echo=setting.db_echo)
+bd_helps_exempl = DatabaseHelper(url=setting.db_url, echo=setting.db_echo)
 
 
 
